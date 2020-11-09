@@ -8,11 +8,11 @@ inputs:
 runs:
   using: "composite"
   steps: 
-    - name: Testing
-      uses: Brightspace/third-party-actions@actions/checkout
-    - name: Testing Again
-      uses: Brightspace/third-party-actions@actions/setup-node
-        with:
-          node-version: '12.x'
+    - uses: Brightspace/third-party-actions@actions/checkout
+    - uses: Brightspace/third-party-actions@actions/setup-node
+      with:
+        node-version: '12.x'
     - run: |
         echo test
+      shell: bash
+ 
