@@ -1,0 +1,18 @@
+name: 'Testing'
+description: 'Testing'
+inputs:
+  test-boolean:
+    description: 'Testing boolean input'
+    required: true
+    default: false
+runs:
+  using: "composite"
+  steps: 
+    - name: Testing
+      uses: Brightspace/third-party-actions@actions/checkout
+    - name: Testing Again
+      uses: Brightspace/third-party-actions@actions/setup-node
+        with:
+          node-version: '12.x'
+    - run: |
+        echo test
