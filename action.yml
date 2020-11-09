@@ -8,10 +8,22 @@ inputs:
 runs:
   using: "composite"
   steps: 
-    - run: |
-        echo {{ inputs.test-boolean }}
+    - id: installing
+      run: |
+        echo ${{ inputs.test-boolean }}
         npm i
       shell: bash
-    - run: npm run lint
+    - id: building
+      run: npm build
       shell: bash
- 
+    - id: linting
+      run: npm run lint
+      shell: bash
+    - id: unit-testing
+      run: |
+        if [ ${{ inputs.test-boolean }} != false ]; then
+          npm run test:local
+        else
+          echo "Skipping local tests"
+        fi
+      shell: bash
