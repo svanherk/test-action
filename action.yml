@@ -8,11 +8,10 @@ inputs:
 runs:
   using: "composite"
   steps: 
-    - uses: Brightspace/third-party-actions@actions/checkout
-    - uses: Brightspace/third-party-actions@actions/setup-node
-      with:
-        node-version: '12.x'
     - run: |
-        echo test
+        echo {{ inputs.test-boolean }}
+        npm i
+      shell: bash
+    - run: npm run lint
       shell: bash
  
