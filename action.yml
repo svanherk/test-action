@@ -21,6 +21,10 @@ inputs:
   DEPLOY:
     description: 'Whether to perform a deploy if necessary'
     default: false
+  GITHUB_TOKEN:
+    description: 'To bump the package.json version'
+  NPM_TOKEN:
+    description: 'To publish to npm'
 runs:
   using: "composite"
   steps: 
@@ -65,4 +69,13 @@ runs:
       env:
         BROWSERSTACK_USERNAME: ${{ inputs.BROWSERSTACK_USERNAME }}
         BROWSERSTACK_ACCESS_KEY: ${{ inputs.BROWSERSTACK_ACCESS_KEY }}
+      shell: bash
+    - run: |
+        if [ ${{ inputs.DEPLOY }} == true ]; then
+          echo "Running semantic-release"
+          npx semantic-release
+        fi
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
       shell: bash
