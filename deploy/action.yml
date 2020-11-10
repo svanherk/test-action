@@ -1,0 +1,23 @@
+
+name: 'UI Component CI'
+description: 'CI for our front-end web components'
+inputs:
+  DEPLOY:
+    description: 'Whether to perform a deploy if necessary'
+    default: false
+  GITHUB_TOKEN:
+    description: 'To bump the package.json version'
+  NPM_TOKEN:
+    description: 'To publish to npm'
+runs:
+  using: "composite"
+  steps: 
+    - run: |
+        if [ ${{ inputs.DEPLOY }} == true ]; then
+          echo "Running semantic-release"
+          npx semantic-release
+        fi
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
+      shell: bash
