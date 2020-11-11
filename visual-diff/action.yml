@@ -20,7 +20,8 @@ inputs:
 runs:
   using: "composite"
   steps: 
-    - run: |
+    - name: Running Visual Diff Tests
+      run: |
         echo "Running Visual Diff Tests"
         npm install -g mocha
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }}
