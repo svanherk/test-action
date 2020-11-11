@@ -23,8 +23,6 @@ runs:
     - run: |
         echo "Running Visual Diff Tests"
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }}
-      env:
-        GITHUB_TOKEN: {{ inputs.GITHUB_TOKEN }}
       shell: bash
     - run: |
         echo "Done"
