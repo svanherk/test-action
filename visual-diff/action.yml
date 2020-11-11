@@ -1,0 +1,27 @@
+
+name: 'Visual Diff'
+description: 'Run your visual diff tests and open a PR with the new goldens as necessary'
+inputs:
+  TEST_PATH:
+    description: 'Visual diff tests path and test names'
+    default: './**/*.visual-diff.js'
+  TEST_TIMEOUT:
+    description: 'mocha timeout'
+    default: '40000'
+  VISUAL_DIFF_S3_ID:
+    description: 'S3 access key id'
+    required: true
+  VISUAL_DIFF_S3_SECRET:
+    description: 'S3 secret access key'
+    required: true
+  GITHUB_TOKEN:
+    description: 'Token used to open the PR'
+    required: true
+runs:
+  using: "composite"
+  steps: 
+    - run: |
+        echo "Running Visual Diff Tests"
+        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }}
+      shell: bash
+ 
