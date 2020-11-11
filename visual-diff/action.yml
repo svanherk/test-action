@@ -22,8 +22,11 @@ runs:
   steps: 
     - run: |
         echo "Running Visual Diff Tests"
+        npm install -g mocha
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }}
       shell: bash
     - run: |
         echo "Done"
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       shell: bash
