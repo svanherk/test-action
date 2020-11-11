@@ -23,9 +23,9 @@ runs:
     - run: |
         echo "Running Visual Diff Tests"
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }}
-      shell: bash
       env:
-        VISUAL_DIFF_S3_ID: {{ inputs.VISUAL_DIFF_S3_ID }}
+        GITHUB_TOKEN: {{ inputs.GITHUB_TOKEN }}
+      shell: bash
     - run: |
         echo "Done"
       shell: bash
