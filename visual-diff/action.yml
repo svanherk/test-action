@@ -24,7 +24,14 @@ runs:
       run: |
         echo "Running Visual Diff Tests"
         npm install -g mocha
-        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }}
+        TESTS_FAILED=$(mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }})
+        if [ $TESTS_FAILED -ne 0 ]; then
+          echo "Committing new goldens"
+          exit 1;
+        else
+          echo "No new goldens"
+          exit 0;
+        fi
       env:
         VISUAL_DIFF_S3_ID: ${{ inputs.VISUAL_DIFF_S3_ID }}
         VISUAL_DIFF_S3_SECRET: ${{ inputs.VISUAL_DIFF_S3_SECRET }}
