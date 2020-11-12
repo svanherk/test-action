@@ -24,7 +24,7 @@ runs:
       run: |
         echo "Running Visual Diff Tests"
         npm install -g mocha
-        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }}
+        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} || true
         TESTS_FAILED=$?
         if [ $TESTS_FAILED -ne 0 ]; then
           echo "Committing new goldens"
