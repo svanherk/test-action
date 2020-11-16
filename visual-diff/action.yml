@@ -27,9 +27,10 @@ runs:
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && TESTS_PASSED=0 || TESTS_PASSED=1
         if [ $TESTS_PASSED -ne 0 ]; then
           echo "Committing new goldens"
+          git diff
           exit 1;
         else
-          echo "No new goldens"
+          echo "Visual diff tests have passed - no new goldens needed"
           exit 0;
         fi
       env:
