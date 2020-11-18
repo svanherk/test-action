@@ -21,6 +21,7 @@ runs:
   using: "composite"
   steps: 
     - name: Running Visual Diff Tests
+      id: visual-diff-tests
       run: |
         echo "Running Visual Diff Tests"
         npm install -g mocha
@@ -28,16 +29,26 @@ runs:
         if [ $TESTS_PASSED -ne 0 ]; then
           echo "Committing new goldens"
           git diff
-          exit 1;
         else
           echo "Visual diff tests have passed - no new goldens needed"
-          exit 0;
         fi
+        echo "::set-output name=tests-passed::$(echo $TESTS_PASSED)"
       env:
         VISUAL_DIFF_S3_ID: ${{ inputs.VISUAL_DIFF_S3_ID }}
         VISUAL_DIFF_S3_SECRET: ${{ inputs.VISUAL_DIFF_S3_SECRET }}
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       shell: bash
-    - run: |
-        echo "Done"
+    - name: Committing New Goldens
+      run: |
+        if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} -ne 0]; then
+          echo "This worked"
+        else
+          echo ${{ steps.visual-diff-tests.outputs.tests-passed }}
+        fi
+        if [ $TESTS_PASSED -ne 0 ]; then
+          echo "This also worked"
+        else
+          echo $TESTS_PASSED
+        fi
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       shell: bash
