@@ -24,7 +24,7 @@ runs:
       id: visual-diff-tests
       run: |
         echo "Running Visual Diff Tests"
-        npm install mocha -g
+        npm install --prefix ${{ github.action_path }} mocha
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"   
       env:
         VISUAL_DIFF_S3_ID: ${{ inputs.VISUAL_DIFF_S3_ID }}
@@ -37,7 +37,7 @@ runs:
           exit 0;
         fi
         echo "Visual diff tests failed - generating new goldens."
-        npm install simple-git -g
+        npm install --prefix ${{ github.action_path }} simple-git
         node ${{ github.action_path }}/src/commit-goldens.js
         git diff
         exit 1;
