@@ -39,7 +39,7 @@ runs:
       shell: bash
     - name: Committing New Goldens
       run: |
-        if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} -ne 0]; then
+        if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} -ne 0 ]; then
           echo "This worked"
         else
           echo ${{ steps.visual-diff-tests.outputs.tests-passed }}
@@ -47,6 +47,7 @@ runs:
         if [ $TESTS_PASSED -ne 0 ]; then
           echo "This also worked"
         else
+          echo "Nope:"
           echo $TESTS_PASSED
         fi
       env:
