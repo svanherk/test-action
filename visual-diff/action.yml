@@ -36,7 +36,7 @@ runs:
           tput setaf 2; echo "Visual diff tests have passed - no new goldens needed."
           exit 0;
         fi
-        tput setaf 1; echo "Visual diff tests failed - generating new goldens."
+        echo "Visual diff tests failed - generating new goldens."
         npm install simple-git -g
         node ${{ github.action_path }}/src/commit-goldens.js
         git diff
