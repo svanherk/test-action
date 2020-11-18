@@ -24,32 +24,27 @@ runs:
       id: visual-diff-tests
       run: |
         echo "Running Visual Diff Tests"
-        npm install -g mocha
-        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && TESTS_PASSED=0 || TESTS_PASSED=1
-        if [ $TESTS_PASSED -ne 0 ]; then
-          echo "Committing new goldens"
-          git diff
-        else
-          echo "Visual diff tests have passed - no new goldens needed"
-        fi
-        echo "::set-output name=tests-passed::$(echo $TESTS_PASSED)"
+        npm install mocha --no-save
+        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"   
       env:
         VISUAL_DIFF_S3_ID: ${{ inputs.VISUAL_DIFF_S3_ID }}
         VISUAL_DIFF_S3_SECRET: ${{ inputs.VISUAL_DIFF_S3_SECRET }}
       shell: bash
+    - name: Committing the New Goldens (if necessary)
+      run: |
+        if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
+          tput setaf 2; echo "Visual diff tests have passed - no new goldens needed."
+          exit 0;
+        fi
+        npm install simple-git --no-save
+        ${{ github.action_path }}/src/commit-goldens.sh
+        exit 1;
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+      shell: bash
     - name: Committing New Goldens
       run: |
-        if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} -ne 0 ]; then
-          echo "This worked"
-        else
-          echo ${{ steps.visual-diff-tests.outputs.tests-passed }}
-        fi
-        if [ $TESTS_PASSED -ne 0 ]; then
-          echo "This also worked"
-        else
-          echo "Nope:"
-          echo $TESTS_PASSED
-        fi
+        git diff
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       shell: bash
