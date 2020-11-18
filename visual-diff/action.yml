@@ -37,7 +37,7 @@ runs:
           exit 0;
         fi
         npm install simple-git --no-save
-        ${{ github.action_path }}/src/commit-goldens.sh
+        node ${{ github.action_path }}/src/commit-goldens.js
         exit 1;
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
