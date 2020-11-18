@@ -24,7 +24,7 @@ runs:
       id: visual-diff-tests
       run: |
         echo "Running Visual Diff Tests"
-        npm install mocha --no-save
+        npm install mocha -g
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"   
       env:
         VISUAL_DIFF_S3_ID: ${{ inputs.VISUAL_DIFF_S3_ID }}
