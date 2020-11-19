@@ -37,7 +37,7 @@ runs:
           exit 0;
         fi
         echo "Visual diff tests failed - generating new goldens."
-        npm install --prefix ${{ github.action_path }} simple-git --no-save
+        npm install simple-git --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/src/commit-goldens.js
         git diff
         exit 1;
