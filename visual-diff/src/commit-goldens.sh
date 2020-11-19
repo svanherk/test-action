@@ -1,1 +1,0 @@
-node commit-goldens.js
