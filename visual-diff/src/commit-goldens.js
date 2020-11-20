@@ -23,9 +23,9 @@ console.log(goldensBranchName);
 const getPR = async() => {
   try {
     const result = await octokit.pulls.get({
+      pull_number: prNum,
       owner,
       repo,
-      prNum,
     });
     return result;
   } catch(e) {
