@@ -25,7 +25,7 @@ const getPR = async() => {
     owner,
     repo,
     prNum
-  };
+  });
   return result;
 }
   
