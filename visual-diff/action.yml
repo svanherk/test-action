@@ -39,8 +39,13 @@ runs:
         echo -e "\e[31mVisual diff tests failed - generating new goldens."
  
         echo "Creating the Visual Diff Branch"
-        git fetch origin +refs/heads/$VISUAL_DIFF_BRANCH:refs/heads/$VISUAL_DIFF_BRANCH || true  
-        git branch
+        git checkout -b $VISUAL_DIFF_BRANCH
+        
+        echo "Committing new goldens"
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add
+        git status
         
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
