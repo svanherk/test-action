@@ -9,7 +9,7 @@ const octokit = new Octokit({
   userAgent: `${process.env['GITHUB_WORKFLOW']}-visual-diff`
 });
 
-const prBranchName = process.env['GITHUB_REF'];
+const prBranchName = process.env['PULL_REQUEST_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM']
 const goldensBranchName = `visual-diff-${prNum}`;
 
