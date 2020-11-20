@@ -43,6 +43,7 @@ runs:
         exit 1;
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        PULL_REQUEST_BRANCH: ${{ github.event.pull_request.head.ref }}
         PULL_REQUEST_NUM: ${{ github.event.number }}
       shell: bash
     - name: Committing New Goldens
