@@ -9,6 +9,10 @@ const octokit = new Octokit({
   userAgent: `${process.env['GITHUB_WORKFLOW']}-visual-diff`
 });
 
-const branchName = 'testing';
+const prBranchName = process.env['GITHUB_REF'];
+const prNum = process.env['PULL_REQUEST_NUM']
+const goldensBranchName = `visual-diff-${prNum}`;
 
-console.log(branchName);
+console.log(prBranchName);
+console.log(prNum);
+console.log(goldensBranchName);
