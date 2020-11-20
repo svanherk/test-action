@@ -37,6 +37,7 @@ runs:
           exit 0;
         fi
         echo -e "\e[31mVisual diff tests failed - generating new goldens."
+        npm install chalk --prefix ${{ github.action_path }} --no-save --loglevel error
         npm install @octokit/core --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/src/commit-goldens.js
         git diff
