@@ -29,11 +29,12 @@ async function confirmPR() {
   if (result && result.head.ref === prBranchName) {
     return result;
   }
-  return reject('not same');
+  console.log('not same');
+  process.exit(1);
 }
   
 
-confirm().then((result) => {
+confirmPR().then((result) => {
   console.log(result);
 }).catch((e) => {
   console.log(e);
