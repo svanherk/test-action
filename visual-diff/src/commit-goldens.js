@@ -31,7 +31,7 @@ async function confirmPR() {
     return result;
   }
   console.log('not same');
-  return reject('haha not same');
+  return Promise.reject('haha not same');
 }
   
 
