@@ -25,7 +25,7 @@ const getPR = async() => {
     const result = await octokit.pulls.get({
       owner,
       repo,
-      prNum
+      prNum,
     });
     return result;
   } catch(e) {
