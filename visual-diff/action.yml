@@ -36,7 +36,14 @@ runs:
           echo -e "\e[32mVisual diff tests have passed - no new goldens needed."
           exit 0;
         fi
+
         echo -e "\e[31mVisual diff tests failed - generating new goldens."
+ 
+        echo "Checking Visual Diff Branch"
+        VISUAL_DIFF_BRANCH=visual-diff-${{ github.event.number }}
+        git fetch origin +refs/heads/$VISUAL_DIFF_BRANCH:refs/heads/$VISUAL_DIFF_BRANCH || true  
+        git branch
+        
         npm install chalk --prefix ${{ github.action_path }} --no-save --loglevel error
         npm install @octokit/core --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/src/commit-goldens.js
