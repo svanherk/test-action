@@ -27,7 +27,7 @@ async function confirmPR() {
     pull_number: prNum
   });
 
-  if (result && result.data && result.data.head.ref === prBranchName) {
+  if (result && result.data && result.data.head.ref === 'prBranchName') {
     return result;
   }
   console.log('not same');
