@@ -9,10 +9,20 @@ const octokit = new Octokit({
   userAgent: `${process.env['GITHUB_WORKFLOW']}-visual-diff`
 });
 
+const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
 const prBranchName = process.env['PULL_REQUEST_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM']
 const goldensBranchName = `visual-diff-${prNum}`;
 
+console.log(owner);
+console.log(repo);
 console.log(prBranchName);
 console.log(prNum);
 console.log(goldensBranchName);
+
+console.log(
+octokit.pulls.get({
+  owner,
+  repo,
+  prNum
+});)
