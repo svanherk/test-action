@@ -25,4 +25,4 @@ octokit.pulls.get({
   owner,
   repo,
   prNum
-});)
+}));
