@@ -23,8 +23,10 @@ console.log(goldensBranchName);
 
 async function confirmPR() {
   console.log('Verifying PR information');
+  
+  let result;
   try {
-    const result = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+    result = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
       owner: owner,
       repo: repo,
       pull_number: prNum
