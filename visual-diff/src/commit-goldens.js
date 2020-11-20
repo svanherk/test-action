@@ -51,4 +51,5 @@ confirmPR().then((result) => {
   console.log(result);
 }).catch((e) => {
   console.log(chalk.red(e));
+  console.log(chalk.red('Could not generate new goldens.'));
 });
