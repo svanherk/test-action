@@ -20,9 +20,14 @@ console.log(prBranchName);
 console.log(prNum);
 console.log(goldensBranchName);
 
-console.log(
-octokit.pulls.get({
-  owner,
-  repo,
-  prNum
-}));
+const getPR = async() => {
+  const result = await octokit.pulls.get({
+    owner,
+    repo,
+    prNum
+  };
+  return result;
+}
+  
+
+console.log(getPR());
