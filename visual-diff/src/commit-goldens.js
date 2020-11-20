@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 
-const git = require('simple-git')();
+const { Octokit } = require('@octokit/rest');
+const { createActionAuth } = require('@octokit/auth-action');
 
-const token = process.env['GITHUB_TOKEN'];
+const octokit = new Octokit({
+  auth: process.env['GITHUB_TOKEN'],
+  baseUrl: process.env['GITHUB_API_URL'],
+  userAgent: `${process.env['GITHUB_WORKFLOW']}-visual-diff`
+});
+
 const branchName = 'testing';
 
 console.log(branchName);
