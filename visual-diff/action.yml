@@ -45,7 +45,10 @@ runs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
-        git status
+        git commit -m 'Updating Visual Diff Goldens'
+        
+        echo "Pushing the Visual Diff Branch"
+        git push --force-with-lease origin $VISUAL_DIFF_BRANCH
         
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
