@@ -26,7 +26,8 @@ async function confirmPR() {
     repo: repo,
     pull_number: prNum
   });
-  if (result && result.head.ref === prBranchName) {
+  console.log(
+  if (result && result.data && result.data.head.ref === prBranchName) {
     return result;
   }
   console.log('not same');
