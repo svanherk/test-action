@@ -30,4 +30,6 @@ const getPR = async() => {
 }
   
 
-console.log(getPR());
+getPR().then((result) => {
+  console.log(result);
+});
