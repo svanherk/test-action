@@ -21,10 +21,11 @@ console.log(prNum);
 console.log(goldensBranchName);
 
 async function confirmPR() {
+  console.log('Verifying PR information');
   const result = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
     owner: owner,
     repo: repo,
-    pull_number: prNum
+    pull_number: 127
   });
 
   if (result && result.data && result.data.head.ref === 'prBranchName') {
