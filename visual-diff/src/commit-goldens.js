@@ -36,7 +36,7 @@ async function confirmPR() {
     return Promise.reject(e);
   }
 
-  if (result.data.head.ref !== 'prBranchName') {
+  if (result.data.head.ref !== prBranchName) {
     return Promise.reject('Branch name does not match what is expected.');
   } else if (result.data.status !== 'open') {
     return Promise.reject('PR that triggered the visual-diff test run is no longer open.');      
