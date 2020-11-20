@@ -27,7 +27,7 @@ async function confirmPR() {
     const result = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
       owner: owner,
       repo: repo,
-      pull_number: 127
+      pull_number: prNum
     });
   } catch(e) {
     console.log(chalk.red('Could not find PR that triggered the visual-diff test run.'));
