@@ -30,7 +30,7 @@ async function confirmPR() {
     return result;
   }
   console.log('not same');
-  process.exit(1);
+  return reject('haha not same');
 }
   
 
