@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { Octokit } = require('@octokit/rest');
+const { Octokit } = require('@octokit/core');
 //const { createActionAuth } = require('@octokit/auth-action');
 
 const octokit = new Octokit({
@@ -20,21 +20,21 @@ console.log(prBranchName);
 console.log(prNum);
 console.log(goldensBranchName);
 
-const getPR = async() => {
-  try {
-    const result = await octokit.pulls.get({
-      pull_number: prNum,
-      owner,
-      repo,
-    });
+async function confirmPR() {
+  const result = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+    owner: owner,
+    repo: repo,
+    pull_number: prNum
+  });
+  if (result && result.head.ref === prBranchName) {
     return result;
-  } catch(e) {
-    console.log(e);
-    return e;
   }
+  return reject('not same');
 }
   
 
-getPR().then((result) => {
+confirm().then((result) => {
   console.log(result);
+}).catch((e) => {
+  console.log(e);
 });
