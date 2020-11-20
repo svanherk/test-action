@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { Octokit } = require('@octokit/rest');
-const { createActionAuth } = require('@octokit/auth-action');
+//const { createActionAuth } = require('@octokit/auth-action');
 
 const octokit = new Octokit({
   auth: process.env['GITHUB_TOKEN'],
