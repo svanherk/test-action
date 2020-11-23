@@ -72,7 +72,7 @@ async function closePR() {
 
 }
   
-if (process.env['TEST_PASSED']) {
+if (process.env['TESTS_PASSED']) {
   openPR().then((result) => {
     console.log(result);
   }).catch((e) => {
