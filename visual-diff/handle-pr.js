@@ -52,6 +52,7 @@ async function openPR() {
     base: `refs/heads/${prBranchName}`
   });
 
+  let goldenPrNum;
   if (goldenPRs.data.length === 0) {
     console.log('Goldens PR does not exist');
     console.log(chalk.blue('\nOpening new goldens PR'));
@@ -63,17 +64,29 @@ async function openPR() {
       base: `refs/heads/${prBranchName}`,
       body: createPRBody()
     });
-    console.log(`PR #${newPR.data.number} opened: ${newPR.data.html_url}`);
+    goldenPrNum = newPR.data.number;
+    console.log(`PR #${goldenPrNum} opened: ${newPR.data.html_url}`);
   } else {
+    goldenPrNum = goldenPRs.data[0].number;
     console.log(`Goldens PR already exists: ${goldenPRs.data[0].html_url}`);
-    console.log('Updating PR description');
+    console.log('chalk.blue('\nUpdating PR description'));
     await octokit.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
       owner: owner,
       repo: repo,
-      pull_number: goldenPRs.data[0].number,
+      pull_number: goldenPrNum,
       body: createPRBody()
     });
-  } 
+  }
+
+  console.log('chalk.blue('\nAdding PR Reviewers'));
+  await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers', {
+    owner: owner,
+    repo: repo,
+    pull_number: goldenPrNum,
+    reviewers: [
+      actor
+    ]
+  });
 }
 
 async function closePR() {
