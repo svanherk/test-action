@@ -56,6 +56,7 @@ runs:
       shell: bash
     - name: Handling the Goldens PR (if necessary)
       run: |
+        echo "Handling Goldens PR"
         npm install chalk --prefix ${{ github.action_path }} --no-save --loglevel error
         npm install @octokit/core --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/handle-pr.js
