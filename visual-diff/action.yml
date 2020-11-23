@@ -38,16 +38,16 @@ runs:
         fi
         echo -e "\e[31mVisual diff tests failed - generating new goldens."
  
-        echo "Creating the Visual Diff Branch"
+        echo -e "\e[34m\nCreating the Visual Diff Branch"
         git checkout -b $VISUAL_DIFF_BRANCH
         
-        echo "Committing new goldens"
+        echo -e "\e[34m\nCommitting new goldens"
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
         git commit -m 'Updating Visual Diff Goldens'
         
-        echo "Pushing the Visual Diff Branch"
+        echo -e "\e[34m\nPushing the Visual Diff Branch"
         git push --force origin $VISUAL_DIFF_BRANCH
         
       env:
@@ -56,7 +56,7 @@ runs:
       shell: bash
     - name: Handling the Goldens PR (if necessary)
       run: |
-        echo "Handling Goldens PR"
+        echo -e "\e[34m\nHandling Goldens PR"
         npm install chalk --prefix ${{ github.action_path }} --no-save --loglevel error
         npm install @octokit/core --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/handle-pr.js
