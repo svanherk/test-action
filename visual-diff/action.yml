@@ -19,8 +19,6 @@ inputs:
     required: true
 runs:
   using: "composite"
-  env:
-    FORCE_COLOR: 3
   steps: 
     - name: Running Visual Diff Tests
       id: visual-diff-tests
@@ -53,6 +51,7 @@ runs:
         git push --force origin $VISUAL_DIFF_BRANCH
         
       env:
+        FORCE_COLOR: 3
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         VISUAL_DIFF_BRANCH: ghworkflow/visual-diff-${{ github.event.number }}
       shell: bash
