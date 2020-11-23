@@ -2,7 +2,6 @@
 
 const chalk = require('chalk');
 const { Octokit } = require('@octokit/core');
-//const { createActionAuth } = require('@octokit/auth-action');
 
 const octokit = new Octokit({
   auth: process.env['GITHUB_TOKEN'],
@@ -15,11 +14,11 @@ const prBranchName = process.env['PULL_REQUEST_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM']
 const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
 
-console.log(owner);
-console.log(repo);
-console.log(prBranchName);
-console.log(prNum);
-console.log(goldensBranchName);
+function createPRBody() {
+  const body = `This PR updates the goldens for the changes in PR #${prNum}. 
+    Failed reports:
+  `;
+}
 
 async function openPR() {
   console.log(chalk.blue('\nVerifying PR information'));
@@ -41,6 +40,7 @@ async function openPR() {
   } else if (prInfo.data.state !== 'open') {
     return Promise.reject('PR that triggered the visual-diff test run is no longer open.');      
   }
+  console.log(`New goldens are for PR #${prNum} (branch: ${prBranchName})`);
   
   console.log(chalk.blue('\nChecking For Existing Goldens PR'));
   
@@ -60,11 +60,18 @@ async function openPR() {
       title: `Updating Visual Diff Goldens for PR #${prNum}`,
       head: `refs/heads/${goldensBranchName}`,
       base: `refs/heads/${prBranchName}`,
-      body: 'Links to reports'
+      body: createPRBody()
     });
-    console.log(`PR #${newPR} opened`);
+    console.log(`PR #${newPR.data.number} opened: ${newPR.data.html_url`);
   } else {
-    console.log(`Goldens PR already exists: ${goldenPRs.data[0].html_url}`);                                    
+    console.log(`Goldens PR already exists: ${goldenPRs.data[0].html_url}`);
+    console.log('Updating PR description');
+    await octokit.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
+      owner: owner,
+      repo: repo,
+      pull_number: goldenPRs.data[0].number,
+      body: createPRBody()
+    });
   } 
 }
 
