@@ -59,7 +59,8 @@ async function openPR() {
       repo: repo,
       title: `Updating Visual Diff Goldens for PR #${prNum}`,
       head: `refs/heads/${goldensBranchName}`,
-      base: `refs/heads/${prBranchName}`
+      base: `refs/heads/${prBranchName}`,
+      body: 'Links to reports'
     });
     console.log(`PR #${newPR} opened`);
   } else {
