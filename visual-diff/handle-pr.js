@@ -19,6 +19,7 @@ function createPRBody() {
   const body = `This PR updates the goldens for the changes in PR #${prNum}. 
     Failed reports:
   `;
+  return body;
 }
 
 async function openPR() {
