@@ -22,7 +22,7 @@ console.log(prNum);
 console.log(goldensBranchName);
 
 async function openPR() {
-  console.log('Verifying PR information');
+  console.log(chalk.blue('\nVerifying PR information'));
   
   let prInfo;
   try {
@@ -42,7 +42,7 @@ async function openPR() {
     return Promise.reject('PR that triggered the visual-diff test run is no longer open.');      
   }
   
-  console.log('Checking For Existing Goldens PR');
+  console.log(chalk.blue('\nChecking For Existing Goldens PR'));
   
   const goldenPRs = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
     owner: owner,
@@ -52,7 +52,8 @@ async function openPR() {
   });
 
   if (goldenPRs.data.length === 0) {
-    console.log('Opening new goldens PR');
+    console.log('Goldens PR does not exist');
+    console.log(chalk.blue('\nOpening new goldens PR'));
     const newPR = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
       owner: owner,
       repo: repo,
