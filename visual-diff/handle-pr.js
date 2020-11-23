@@ -48,18 +48,18 @@ async function openPR() {
     owner: owner,
     repo: repo,
     head: `${owner}:refs/heads/${goldensBranchName}`,
-    base: `refs/head/${prBranchName}`
+    base: `refs/heads/${prBranchName}`
   });
 
   if (goldenPRs.data.length === 0) {
     console.log('Goldens PR does not exist');
     console.log(chalk.blue('\nOpening new goldens PR'));
-    const newPR = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
+    const newPR = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
       owner: owner,
       repo: repo,
-      title: `Updating Visual Diff Goldens for PR #${prNum}`
+      title: `Updating Visual Diff Goldens for PR #${prNum}`,
       head: `refs/heads/${goldensBranchName}`,
-      base: `refs/head/${prBranchName}`
+      base: `refs/heads/${prBranchName}`
     });
     console.log(`PR #${newPR} opened`);
   } else {
