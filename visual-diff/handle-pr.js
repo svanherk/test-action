@@ -81,7 +81,7 @@ async function openPR() {
   }
 
   console.log(chalk.blue('\nAdding PR Reviewers'));
-  cosnt acting = await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers', {
+  const acting = await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers', {
     owner: owner,
     repo: repo,
     pull_number: goldenPrNum,
