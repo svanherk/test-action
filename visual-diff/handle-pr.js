@@ -13,6 +13,7 @@ const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
 const prBranchName = process.env['PULL_REQUEST_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM']
 const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
+const actor = process.env['GITHUB_ACTOR'];
 
 function createPRBody() {
   const body = `This PR updates the goldens for the changes in PR #${prNum}. 
@@ -62,7 +63,7 @@ async function openPR() {
       base: `refs/heads/${prBranchName}`,
       body: createPRBody()
     });
-    console.log(`PR #${newPR.data.number} opened: ${newPR.data.html_url`);
+    console.log(`PR #${newPR.data.number} opened: ${newPR.data.html_url}`);
   } else {
     console.log(`Goldens PR already exists: ${goldenPRs.data[0].html_url}`);
     console.log('Updating PR description');
