@@ -13,7 +13,7 @@ const octokit = new Octokit({
 const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
 const prBranchName = process.env['PULL_REQUEST_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM']
-const goldensBranchName = `visual-diff-${prNum}`;
+const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
 
 console.log(owner);
 console.log(repo);
@@ -21,12 +21,12 @@ console.log(prBranchName);
 console.log(prNum);
 console.log(goldensBranchName);
 
-async function confirmPR() {
+async function openPR() {
   console.log('Verifying PR information');
   
-  let result;
+  let prInfo;
   try {
-    result = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+    prInfo = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
       owner: owner,
       repo: repo,
       pull_number: prNum
@@ -36,20 +36,52 @@ async function confirmPR() {
     return Promise.reject(e);
   }
 
-  if (result.data.head.ref !== prBranchName) {
+  if (prInfo.data.head.ref !== prBranchName) {
     return Promise.reject('Branch name does not match what is expected.');
-  } else if (result.data.state !== 'open') {
+  } else if (prInfo.data.state !== 'open') {
     return Promise.reject('PR that triggered the visual-diff test run is no longer open.');      
   }
   
-  console.log('Checking Out PR Branch');
+  console.log('Checking For Existing Goldens PR');
   
+  const goldenPRs = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
+    owner: owner,
+    repo: repo,
+    head: `${owner}:refs/heads/${goldensBranchName}`,
+    base: `refs/head/${prBranchName}`
+  });
+
+  if (goldenPRs.data.length === 0) {
+    console.log('Opening new goldens PR');
+    const newPR = await octokit.request('GET /repos/{owner}/{repo}/pulls', {
+      owner: owner,
+      repo: repo,
+      title: `Updating Visual Diff Goldens for PR #${prNum}`
+      head: `refs/heads/${goldensBranchName}`,
+      base: `refs/head/${prBranchName}`
+    });
+    console.log(`PR #${newPR} opened`);
+  } else {
+    console.log(`Goldens PR already exists: ${goldenPRs.data[0].html_url}`);                                    
+  } 
+}
+
+async function closePR() {
+
 }
   
-
-confirmPR().then((result) => {
-  console.log(result);
-}).catch((e) => {
-  console.log(chalk.red(e));
-  console.log(chalk.red('Could not generate new goldens.'));
-});
+if (process.env['TEST_PASSED']) {
+  openPR().then((result) => {
+    console.log(result);
+  }).catch((e) => {
+    console.log(chalk.red(e));
+    console.log(chalk.red('Could not open/update new goldens PR.'));
+  });
+} else {
+  closePR().then((result) => {
+    console.log(result);
+  }).catch((e) => {
+    console.log(chalk.red(e));
+    console.log(chalk.red('Could not close existing goldens PR.'));
+  });
+}
