@@ -52,7 +52,7 @@ runs:
         
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
-        VISUAL_DIFF_BRANCH: visual-diff-${{ github.event.number }}
+        VISUAL_DIFF_BRANCH: gha-visual-diff-${{ github.event.number }}
       shell: bash
     - name: Handling the Goldens PR (if necessary)
       run: |
@@ -72,4 +72,5 @@ runs:
         PULL_REQUEST_BRANCH: ${{ github.event.pull_request.head.ref }}
         PULL_REQUEST_NUM: ${{ github.event.number }}
         TESTS_PASSED: ${{ steps.visual-diff-tests.outputs.tests-passed }}
+        VISUAL_DIFF_BRANCH: gha-visual-diff-${{ github.event.number }}
       shell: bash
