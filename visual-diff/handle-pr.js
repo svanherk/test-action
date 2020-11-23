@@ -70,16 +70,17 @@ async function openPR() {
     goldenPrNum = goldenPRs.data[0].number;
     console.log(`Goldens PR already exists: ${goldenPRs.data[0].html_url}`);
     console.log(chalk.blue('\nUpdating PR description'));
-    await octokit.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
+    const update = await octokit.request('PATCH /repos/{owner}/{repo}/pulls/{pull_number}', {
       owner: owner,
       repo: repo,
       pull_number: goldenPrNum,
       body: createPRBody()
     });
+    console.log(update.data);
   }
 
   console.log(chalk.blue('\nAdding PR Reviewers'));
-  await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers', {
+  cosnt acting = await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers', {
     owner: owner,
     repo: repo,
     pull_number: goldenPrNum,
@@ -87,6 +88,7 @@ async function openPR() {
       actor
     ]
   });
+  console.log(acting.data);
 }
 
 async function closePR() {
