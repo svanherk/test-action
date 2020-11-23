@@ -19,6 +19,8 @@ inputs:
     required: true
 runs:
   using: "composite"
+  env:
+    FORCE_COLOR: 3
   steps: 
     - name: Running Visual Diff Tests
       id: visual-diff-tests
