@@ -20,10 +20,9 @@ function createPRBody() {
   if (!process.env['FAILED_REPORTS']) {
     return body;
   }
+  
   body = body + '\nFailed Reports:';
-  console.log(process.env['FAILED_REPORTS']);
-  const list = process.env['FAILED_REPORTS'];
-  const links = list.split(',');
+  const links = process.env['FAILED_REPORTS'].split(',');
   const formattedLinks = links.reduce((combined, link) => {
     const name = link.split('/');
     return combined + `\n- [${name[name.length - 2]}](${link})`;
