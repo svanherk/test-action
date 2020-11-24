@@ -21,7 +21,10 @@ function createPRBody() {
   `;
   const list = 'https://google.ca,https://amazon.ca';
   const links = list.split(',');
-  const formattedLinks = links.reduce((combined, link) => combined + `\n- [${link}](${link})`, '');
+  const formattedLinks = links.reduce((combined, link) => {
+    const name = link.split('/');
+    return combined + `\n- [${name[name.length - 2]}](${link})`;
+  }, '');
   return body + formattedLinks;
 }
 
@@ -70,6 +73,14 @@ async function openPR() {
     });
     goldenPrNum = newPR.data.number;
     console.log(`PR #${goldenPrNum} opened: ${newPR.data.html_url}`);
+    await octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/labels', {
+      owner: owner,
+      repo: repo,
+      issue_number: goldenPrNum,
+      labels: [
+        'auto-visual-diff'
+      ]
+    });
   } else {
     goldenPrNum = goldenPRs.data[0].number;
     console.log(`Goldens PR already exists: ${goldenPRs.data[0].html_url}`);
