@@ -30,7 +30,7 @@ runs:
         echo "::set-output name=failed-reports::$(echo $FAILED_REPORTS)"
       env:
         FORCE_COLOR: 3
-        VISUAL_DIFF_S3_ID: 'stop for now'
+        VISUAL_DIFF_S3_ID: ${{ inputs.VISUAL_DIFF_S3_ID }}
         VISUAL_DIFF_S3_SECRET: ${{ inputs.VISUAL_DIFF_S3_SECRET }}
       shell: bash
     - name: Committing the New Goldens (if necessary)
