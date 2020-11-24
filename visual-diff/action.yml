@@ -25,7 +25,8 @@ runs:
       run: |
         echo -e "\e[34mRunning Visual Diff Tests"
         npm install mocha -g
-        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"   
+        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
+        echo "::set-output name=failed-reports::$(echo $FAILED_REPORTS)"
       env:
         FORCE_COLOR: 3
         VISUAL_DIFF_S3_ID: 'stop for now'
@@ -69,6 +70,7 @@ runs:
 
         exit 1;
       env:
+        FAILED_REPORTS: ${{ steps.visual-diff-tests.outputs.failed-reports }}
         FORCE_COLOR: 3
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         PULL_REQUEST_BRANCH: ${{ github.event.pull_request.head.ref }}
