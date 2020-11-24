@@ -25,7 +25,7 @@ runs:
       run: |
         echo -e "\e[34mRunning Visual Diff Tests"
         npm install mocha -g
-        source mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
+        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
         echo Testing
         echo "$FAILED_REPORTS"
         var=$(<failed-reports.txt)
