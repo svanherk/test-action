@@ -19,7 +19,7 @@ function createPRBody() {
   const body = `This PR updates the goldens for the changes in PR #${prNum}. 
     Failed reports:
   `;
-  const list = process.env['FAILED_REPORTS'] || [];
+  const list = process.env['FAILED_REPORTS'] || '';
   const links = list.split(',');
   const formattedLinks = links.reduce((combined, link) => {
     const name = link.split('/');
