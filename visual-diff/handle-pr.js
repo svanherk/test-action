@@ -16,12 +16,11 @@ const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
 const actor = process.env['GITHUB_ACTOR'];
 
 function createPRBody() {
-  const body = `This PR updates the goldens for the changes in PR #${prNum}. 
-    Failed reports:
-  `;
+  const body = `This PR updates the goldens for the changes in PR #${prNum}.`;
   if (!process.env['FAILED_REPORTS']) {
     return body;
   }
+  body = body + '\nFailed Reports:';
   console.log(process.env['FAILED_REPORTS']);
   const list = process.env['FAILED_REPORTS'];
   const links = list.split(',');
@@ -106,8 +105,6 @@ async function openPR() {
       actor
     ]
   });
-  
-  // Add issue?
 }
 
 async function closePR() {
