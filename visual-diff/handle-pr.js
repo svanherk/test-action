@@ -21,7 +21,7 @@ function createPRBody() {
   `;
   const list = 'https://google.ca,https://amazon.ca';
   const links = list.split(',');
-  const formattedLinks = links.reduce((link, curr) => curr + `\n- [${link}](${link})`);
+  const formattedLinks = links.reduce((link, curr) => curr + `\n- [${link}](${link})`, '');
   return body + formattedLinks;
 }
 
