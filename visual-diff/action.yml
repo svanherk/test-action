@@ -27,9 +27,8 @@ runs:
         npm install mocha -g
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
         echo Testing
+        FAILED_REPORTS=$(<failed-reports.txt)
         echo "$FAILED_REPORTS"
-        var=$(<failed-reports.txt)
-        echo "$var"
         echo "::set-output name=failed-reports::$(echo "$FAILED_REPORTS")"
       env:
         FORCE_COLOR: 3
