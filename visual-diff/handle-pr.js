@@ -111,7 +111,7 @@ async function closePR() {
   // Delete branch
 }
   
-if (process.env['TESTS_PASSED']) {
+if (process.env['TESTS_PASSED'] !== 'true') {
   openPR().then((result) => {
     console.log(result);
   }).catch((e) => {
