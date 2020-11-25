@@ -81,6 +81,5 @@ runs:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         PULL_REQUEST_BRANCH: ${{ github.event.pull_request.head.ref }}
         PULL_REQUEST_NUM: ${{ github.event.number }}
-        TESTS_PASSED: ${{ steps.visual-diff-tests.outputs.tests-passed }}
         VISUAL_DIFF_BRANCH: ghworkflow/visual-diff-${{ github.event.number }}
       shell: bash
