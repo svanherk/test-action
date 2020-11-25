@@ -66,6 +66,8 @@ runs:
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
           echo -e "\n\e[34mClosing Goldens PR and Deleting Branch (if it exists)"
           git push -d origin $VISUAL_DIFF_BRANCH || true
+     
+          echo -e "\e[32mCompleted - Build Passed."
           exit 0;
         fi
 
@@ -74,6 +76,7 @@ runs:
         npm install @octokit/core --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/handle-pr.js
  
+        echo -e "\e[31mCompleted - Build Failed."
         exit 1;
       env:
         FAILED_REPORTS: ${{ steps.visual-diff-tests.outputs.failed-reports }}
