@@ -106,23 +106,9 @@ async function openPR() {
   });
 }
 
-async function closePR() {
-  // Delete PR
-  // Delete branch
-}
-  
-if (process.env['TESTS_PASSED'] !== 'true') {
-  openPR().then((result) => {
-    console.log(result);
-  }).catch((e) => {
-    console.log(chalk.red(e));
-    console.log(chalk.red('Could not open/update new goldens PR.'));
-  });
-} else {
-  closePR().then((result) => {
-    console.log(result);
-  }).catch((e) => {
-    console.log(chalk.red(e));
-    console.log(chalk.red('Could not close existing goldens PR.'));
-  });
-}
+openPR().then((result) => {
+  console.log(result);
+}).catch((e) => {
+  console.log(chalk.red(e));
+  console.log(chalk.red('Could not open/update new goldens PR.'));
+});
