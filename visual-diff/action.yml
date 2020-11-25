@@ -64,7 +64,7 @@ runs:
     - name: Handling the Goldens PR (if necessary)
       run: |   
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
-          echo -e "\n\e[34mClosing Goldens PR and Deleting Branch (If It Exists)"
+          echo -e "\n\e[34mClosing Goldens PR and Deleting Branch (if it exists)"
           git push -d origin $VISUAL_DIFF_BRANCH || true
           exit 0;
         fi
