@@ -106,9 +106,7 @@ async function openPR() {
   });
 }
 
-openPR().then((result) => {
-  console.log(result);
-}).catch((e) => {
+openPR().catch((e) => {
   console.log(chalk.red(e));
   console.log(chalk.red('Could not open/update new goldens PR.'));
 });
