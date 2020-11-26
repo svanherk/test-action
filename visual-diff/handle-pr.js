@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const { Octokit } = require('@octokit/core');
+const { Octokit } = require('@octokit/rest');
 
 const octokit = new Octokit({
   auth: process.env['GITHUB_TOKEN'],
