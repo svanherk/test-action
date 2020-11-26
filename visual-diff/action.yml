@@ -24,7 +24,7 @@ runs:
       id: visual-diff-tests
       run: |
         echo -e "\e[34mRunning Visual Diff Tests"
-        npm install mocha -g
+        npm install mocha --no-save
         npm install puppeteer --no-save
         npm install @brightspace-ui/visual-diff --no-save
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
