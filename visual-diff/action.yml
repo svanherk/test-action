@@ -25,8 +25,8 @@ runs:
       run: |
         echo -e "\e[34mRunning Visual Diff Tests"
         npm install mocha -g
-        npm install puppeteer --prefix ${{ github.action_path }} --no-save --loglevel error
-        npm install @brightspace-ui/visual-diff --prefix ${{ github.action_path }} --no-save --loglevel error
+        npm install puppeteer --no-save
+        npm install @brightspace-ui/visual-diff --no-save
         mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
         if [ -f failed-reports.txt ]; then
           FAILED_REPORTS=$(<failed-reports.txt)
