@@ -27,7 +27,7 @@ runs:
         npm install mocha --no-save
         npm install puppeteer --no-save
         npm install @brightspace-ui/visual-diff --no-save
-        ./node_modules/mocha/bin/mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
+        npx mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
         if [ -f failed-reports.txt ]; then
           FAILED_REPORTS=$(<failed-reports.txt)
           echo "::set-output name=failed-reports::$(echo "$FAILED_REPORTS")"
