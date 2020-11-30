@@ -42,7 +42,7 @@ async function openPR() {
         pull_number: prNum
       });
     } catch(e) {
-      console.log(chalk.red('Could not find PR that triggered the visual-diff test run.'));
+      console.log(chalk.red(`Could not find PR (${prNum}) that triggered the visual-diff test run`));
       return Promise.reject(e);
     }
 
@@ -58,10 +58,10 @@ async function openPR() {
       await octokit.request('GET /repos/{owner}/{repo}/branches/{branch}', {
         owner: owner,
         repo: repo,
-        branch: sourceBranchName + 'something'
+        branch: sourceBranchName
       });
     } catch(e) {
-      console.log(chalk.red('Could not find branch that triggered the visual-diff test run.'));
+      console.log(chalk.red(`Could not find branch (${sourceBranchName}) that triggered the visual-diff test run.`));
       return Promise.reject(e);
     }
     console.log(`New goldens are for branch ${sourceBranchName}`);
