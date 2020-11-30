@@ -10,13 +10,13 @@ const octokit = new Octokit({
 });
 
 const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
-const prBranchName = process.env['PULL_REQUEST_BRANCH'];
+const sourceBranchName = process.env['SOURCE_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM']
 const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
 const actor = process.env['GITHUB_ACTOR'];
 
 function createPRBody() {
-  let body = `This PR updates the goldens for the changes in PR #${prNum}.`;
+  let body = prNum ? `This PR updates the goldens for the changes in PR #${prNum}.` : `This PR fixes the goldens for branch ${sourceBranchName}`;
   if (!process.env['FAILED_REPORTS']) {
     return body;
   }
@@ -31,26 +31,41 @@ function createPRBody() {
 }
 
 async function openPR() {
-  console.log(chalk.blue('\nVerifying PR information'));
-  
-  let prInfo;
-  try {
-    prInfo = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
-      owner: owner,
-      repo: repo,
-      pull_number: prNum
-    });
-  } catch(e) {
-    console.log(chalk.red('Could not find PR that triggered the visual-diff test run.'));
-    return Promise.reject(e);
-  }
+  if (prNum) {
+    console.log(chalk.blue(`\nTests triggered by PR - Verifying PR information`));
 
-  if (prInfo.data.head.ref !== prBranchName) {
-    return Promise.reject('Branch name does not match what is expected.');
-  } else if (prInfo.data.state !== 'open') {
-    return Promise.reject('PR that triggered the visual-diff test run is no longer open.');      
+    let prInfo;
+    try {
+      prInfo = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+        owner: owner,
+        repo: repo,
+        pull_number: prNum
+      });
+    } catch(e) {
+      console.log(chalk.red('Could not find PR that triggered the visual-diff test run.'));
+      return Promise.reject(e);
+    }
+
+    if (prInfo.data.head.ref !== sourceBranchName) {
+      return Promise.reject('Branch name does not match what is expected.');
+    } else if (prInfo.data.state !== 'open') {
+      return Promise.reject('PR that triggered the visual-diff test run is no longer open.');      
+    }
+    console.log(`New goldens are for PR #${prNum} (branch: ${sourceBranchName})`);
+  } else {
+    console.log(chalk.blue(`\nTests triggered by push to branch - Verifying branch information`));
+    try {
+      await octokit.request('GET /repos/{owner}/{repo}/branches/{branch}', {
+        owner: owner,
+        repo: repo,
+        branch: sourceBranchName + 'something'
+      });
+    } catch(e) {
+      console.log(chalk.red('Could not find branch that triggered the visual-diff test run.'));
+      return Promise.reject(e);
+    }
+    console.log(`New goldens are for branch ${sourceBranchName}`);
   }
-  console.log(`New goldens are for PR #${prNum} (branch: ${prBranchName})`);
   
   console.log(chalk.blue('\nChecking For Existing Goldens PR'));
   
@@ -58,7 +73,7 @@ async function openPR() {
     owner: owner,
     repo: repo,
     head: `${owner}:refs/heads/${goldensBranchName}`,
-    base: `refs/heads/${prBranchName}`
+    base: `refs/heads/${sourceBranchName}`
   });
 
   let goldenPrNum;
@@ -68,9 +83,9 @@ async function openPR() {
     const newPR = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
       owner: owner,
       repo: repo,
-      title: `Updating Visual Diff Goldens for PR #${prNum}`,
+      title: prNum ? `Updating Visual Diff Goldens for PR ${prNum}` : `Updating Visual Diff Goldens for Branch ${sourceBranchName}`,
       head: `refs/heads/${goldensBranchName}`,
-      base: `refs/heads/${prBranchName}`,
+      base: `refs/heads/${sourceBranchName}`,
       body: createPRBody()
     });
     goldenPrNum = newPR.data.number;
