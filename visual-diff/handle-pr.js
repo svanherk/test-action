@@ -16,7 +16,7 @@ const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
 const actor = process.env['GITHUB_ACTOR'];
 
 function createPRBody() {
-  let body = prNum ? `This PR updates the goldens for the changes in PR #${prNum}.` : `This PR fixes the goldens for branch ${sourceBranchName}`;
+  let body = prNum ? `This PR updates the goldens for the changes in PR #${prNum}.` : `This PR fixes the goldens for branch \`${sourceBranchName}\`.`;
   if (!process.env['FAILED_REPORTS']) {
     return body;
   }
