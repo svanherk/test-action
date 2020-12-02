@@ -19,12 +19,19 @@ inputs:
     required: true
 runs:
   using: "composite"
-  steps: 
+  steps:
+    - name: Installing Dependencies
+      run: |
+        echo -e "\e[34mInstalling Dependencies"
+        npm install mocha puppeteer @brightspace-ui/visual-diff --no-save
+        npm install chalk @octokit/rest --prefix ${{ github.action_path }} --no-save --loglevel error
+      env:
+        FORCE_COLOR: 3
+      shell: bash
     - name: Running Visual Diff Tests
       id: visual-diff-tests
       run: |
         echo -e "\e[34mRunning Visual Diff Tests"
-        npm install mocha puppeteer @brightspace-ui/visual-diff --no-save
         npx mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
         if [ -f failed-reports.txt ]; then
           FAILED_REPORTS=$(<failed-reports.txt)
@@ -81,7 +88,6 @@ runs:
         fi
 
         echo -e "\n\e[34mHandling Goldens PR"
-        npm install chalk @octokit/rest --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/handle-pr.js
  
         echo -e "\e[31mCompleted - Build Failed."
