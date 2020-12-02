@@ -25,7 +25,7 @@ runs:
       run: |
         echo -e "\e[34mRunning Visual Diff Tests"
         npm install mocha puppeteer @brightspace-ui/visual-diff --no-save
-        npx mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
+        mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
         if [ -f failed-reports.txt ]; then
           FAILED_REPORTS=$(<failed-reports.txt)
           echo "::set-output name=failed-reports::$(echo "$FAILED_REPORTS")"
@@ -33,7 +33,7 @@ runs:
         fi
       env:
         FORCE_COLOR: 3
-        AWS_ACCESS_KEY_ID: 'issue'
+        AWS_ACCESS_KEY_ID: ${{ inputs.AWS_SECRET_ACCESS_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
       shell: bash
     - name: Committing the New Goldens (if necessary)
