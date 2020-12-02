@@ -87,7 +87,6 @@ runs:
           exit 0;
         fi
 
-        echo -e "\n\e[34mHandling Goldens PR"
         node ${{ github.action_path }}/handle-pr.js
  
         echo -e "\e[31mCompleted - Build Failed."
