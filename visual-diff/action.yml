@@ -73,9 +73,9 @@ runs:
         
         echo -e "\n\e[34mCreating the Visual Diff Branch"
         git stash
+        git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH
+        git checkout $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
-        git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH || true
-        git reset --hard origin/$SOURCE_BRANCH
         git stash apply
         
         echo -e "\n\e[34mCommitting new goldens"
