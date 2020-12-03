@@ -30,7 +30,7 @@ function createPRBody() {
 	return body + formattedLinks;
 }
 
-async function openPR() {
+async function handlePR() {
 	if (prNum) {
 		console.log(chalk.blue('\nTests triggered by PR - Verifying PR information'));
 
@@ -121,7 +121,7 @@ async function openPR() {
 	});
 }
 
-openPR().catch((e) => {
+handlePR().catch((e) => {
 	console.log(chalk.red(e));
 	console.log(chalk.red('Could not open/update new goldens PR.'));
 });
