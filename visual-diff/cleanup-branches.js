@@ -13,7 +13,7 @@ const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
 const branchPrefix = process.env['VISUAL_DIFF_BRANCH_PREFIX'];
 
 async function cleanupBranches() {
-	console.log(`Coming soon... will cleanup ${branchPrefix} branches.`);
+	console.log(`Coming soon... will cleanup ${branchPrefix} branches.\n`);
 }
 
 cleanupBranches().catch((e) => {
