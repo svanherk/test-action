@@ -28,6 +28,15 @@ runs:
       env:
         FORCE_COLOR: 3
       shell: bash
+    - name: Visual Diff Branch Cleanup
+      run: |
+        echo -e "\e[34mCleaning Up Orphaned Visual Diff Branches"
+        node ${{ github.action_path }}/cleanup-branches.js
+      env:
+        FORCE_COLOR: 3
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        VISUAL_DIFF_BRANCH_PREFIX: 'ghworkflow/visual-diff-pr-'
+      shell: bash
     - name: Running Visual Diff Tests
       id: visual-diff-tests
       run: |
