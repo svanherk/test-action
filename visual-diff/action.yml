@@ -2,12 +2,6 @@
 name: 'Visual Diff'
 description: 'Run your visual diff tests and open a PR with the new goldens as necessary'
 inputs:
-  TEST_PATH:
-    description: 'Visual diff tests path and test names'
-    default: './**/*.visual-diff.js'
-  TEST_TIMEOUT:
-    description: 'mocha timeout'
-    default: '40000'
   AWS_ACCESS_KEY_ID:
     description: 'Access key id for the role to assume the visual diff role'
     required: true
@@ -17,6 +11,12 @@ inputs:
   GITHUB_TOKEN:
     description: 'Token used to open the PR'
     required: true
+  TEST_PATH:
+    description: 'Visual diff tests path and test names'
+    default: './**/*.visual-diff.js'
+  TEST_TIMEOUT:
+    description: 'Mocha test timeout'
+    default: '40000'
 runs:
   using: "composite"
   steps:
@@ -80,8 +80,7 @@ runs:
         git commit -m 'Updating Visual Diff Goldens'
         
         echo -e "\n\e[34mPushing the Visual Diff Branch"
-        git push --force origin $VISUAL_DIFF_BRANCH
-        
+        git push --force origin $VISUAL_DIFF_BRANCH  
       env:
         FORCE_COLOR: 3
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
