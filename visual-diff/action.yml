@@ -16,7 +16,7 @@ inputs:
     default: './**/*.visual-diff.js'
   TEST_TIMEOUT:
     description: 'Mocha test timeout'
-    default: '40000'
+    default: 40000
 runs:
   using: "composite"
   steps:
