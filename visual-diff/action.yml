@@ -74,7 +74,7 @@ runs:
         echo -e "\n\e[34mCreating the Visual Diff Branch"
         git status
         git add .
-        gitt diff
+        git diff
         git stash
         git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH -q || true
         git checkout $SOURCE_BRANCH
