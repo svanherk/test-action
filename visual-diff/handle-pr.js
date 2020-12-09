@@ -149,7 +149,7 @@ async function handlePR() {
 		owner: owner,
 		repo: repo,
 		check_run_id: test.data.jobs[0].id,
-		output: Object.assign({}, done.data.output, {text: 'testing stuff'}
+		output: Object.assign({}, done.data.output, {text: 'testing stuff'})
 	});
 }
 
