@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const core = require("@actions/core");
 const chalk = require('chalk');
 const { Octokit } = require('@octokit/rest');
 
