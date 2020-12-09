@@ -130,7 +130,7 @@ async function handlePR() {
 	});
 
 	console.log(process.env['GITHUB_RUN_ID']);
-	const test = await octokit.request('/repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
+	const test = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
 		owner: owner,
 		repo: repo,
 		run_id: process.env['GITHUB_RUN_ID']
