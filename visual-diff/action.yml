@@ -108,6 +108,7 @@ runs:
         FAILED_REPORTS: ${{ steps.visual-diff-tests.outputs.failed-reports }}
         FORCE_COLOR: 3
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        JOB_ID: ${{ github.job }}
         PULL_REQUEST_NUM: ${{ github.event.number }}
         SOURCE_BRANCH: ${{ steps.committing-goldens.outputs.source-branch }}
         VISUAL_DIFF_BRANCH: ${{ steps.committing-goldens.outputs.visual-diff-branch }}
