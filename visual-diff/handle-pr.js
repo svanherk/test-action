@@ -129,6 +129,7 @@ async function handlePR() {
 		]
 	});
 	console.log(process.env['JOB_ID']);
+	console.log(process.env['GITHUB_RUN_ID']);
 	const test = await octokit.request('/repos/{owner}/{repo}/actions/jobs/{job_id}', {
 		owner: owner,
 		repo: repo,
