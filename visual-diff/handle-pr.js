@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const core = require("@actions/core");
 const chalk = require('chalk');
 const { Octokit } = require('@octokit/rest');
 
@@ -129,7 +128,7 @@ async function handlePR() {
 			actor
 		]
 	});
-	core.setFailed('What does this do?');
+	console.log(process.env['GITHUB_RUN_ID']);
 }
 
 handlePR().catch((e) => {
