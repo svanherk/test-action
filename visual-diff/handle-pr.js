@@ -130,22 +130,23 @@ async function handlePR() {
 	});
 
 	console.log(process.env['GITHUB_RUN_ID']);
-	try {
-		const test = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
-			owner: owner,
-			repo: repo,
-			run_id: process.env['GITHUB_RUN_ID']
-		});
-		console.log(test.total_count);
-		console.log(JSON.stringify(test));
-	} catch (e) {
-		console.lgo(e);
-	}
-	/*const test = await octokit.request('GET /repos/{owner}/{repo}/check-runs/{check_run_id}', {
+
+	const test = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
 		owner: owner,
 		repo: repo,
-		check_run_id: process.env['GITHUB_RUN_ID']
-	});*/
+		run_id: process.env['GITHUB_RUN_ID']
+	});
+	console.log(test.data.total_count);
+	console.log(test.data.jobs[0].id);
+
+	const done = await octokit.request('PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}', {
+		owner: owner,
+		repo: repo,
+		check_run_id: test.data.jobs[0].id,
+		output: {
+			text: 'Goldens PR'	
+		}
+	});
 }
 
 handlePR().catch((e) => {
