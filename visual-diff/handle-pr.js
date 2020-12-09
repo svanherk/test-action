@@ -139,13 +139,17 @@ async function handlePR() {
 	console.log(test.data.total_count);
 	console.log(test.data.jobs[0].id);
 
-	const done = await octokit.request('PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}', {
+	const done = await octokit.request('GET /repos/{owner}/{repo}/check-runs/{check_run_id}', {
+		owner: owner,
+		repo: repo,
+		check_run_id: test.data.jobs[0].id
+	});
+	
+	await octokit.request('PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}', {
 		owner: owner,
 		repo: repo,
 		check_run_id: test.data.jobs[0].id,
-		output: {
-			text: 'Goldens PR'	
-		}
+		output: Object.assign({}, done.data.output, {text: 'testing stuff'}
 	});
 }
 
