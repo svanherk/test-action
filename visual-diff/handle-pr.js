@@ -128,6 +128,7 @@ async function handlePR() {
 			actor
 		]
 	});
+	core.setFailed('What does this do?');
 }
 
 handlePR().catch((e) => {
