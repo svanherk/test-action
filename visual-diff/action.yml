@@ -100,6 +100,7 @@ runs:
           exit 0;
         fi
 
+        npm i @actions/core --no-save
         node ${{ github.action_path }}/handle-pr.js
  
         echo -e "\e[31mCompleted - Build Failed."
