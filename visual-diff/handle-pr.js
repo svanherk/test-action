@@ -146,7 +146,7 @@ async function handlePR() {
 	});
 	
 	console.log(done.data.output);
-	consoel.log(JSON.parse(done.data.output));
+	console.log(JSON.parse(done.data.output));
 	
 	await octokit.request('PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}', {
 		owner: owner,
