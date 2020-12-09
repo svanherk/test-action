@@ -145,7 +145,7 @@ async function handlePR() {
 		check_run_id: test.data.jobs[0].id
 	});
 	
-	const obj = Object.assign({}, done.data.output, {text: 'testing stuff'});
+	const obj = Object.assign({}, done.data.output, {text: 'testing stuff', title: 'hello', summary: 'what'});
 	console.log(obj);
 	
 	await octokit.request('PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}', {
