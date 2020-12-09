@@ -130,12 +130,17 @@ async function handlePR() {
 	});
 
 	console.log(process.env['GITHUB_RUN_ID']);
-	const test = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
-		owner: owner,
-		repo: repo,
-		run_id: process.env['GITHUB_RUN_ID']
-	});
-	console.log(test.jobs[0].id);
+	try {
+		const test = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
+			owner: owner,
+			repo: repo,
+			run_id: process.env['GITHUB_RUN_ID']
+		});
+		console.log(test.total_count);
+		console.log(JSON.stringify(test));
+	} catch (e) {
+		console.lgo(e);
+	}
 	/*const test = await octokit.request('GET /repos/{owner}/{repo}/check-runs/{check_run_id}', {
 		owner: owner,
 		repo: repo,
