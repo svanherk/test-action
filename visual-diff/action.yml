@@ -100,7 +100,6 @@ runs:
           exit 0;
         fi
 
-        npm i @actions/core --prefix ${{ github.action_path }} --no-save --loglevel error
         node ${{ github.action_path }}/handle-pr.js
  
         echo -e "\e[31mCompleted - Build Failed."
