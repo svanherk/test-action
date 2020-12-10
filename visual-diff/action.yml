@@ -96,7 +96,7 @@ runs:
           git ls-remote --heads origin $VISUAL_DIFF_BRANCH
           git ls-remote --heads origin refs/heads/$VISUAL_DIFF_BRANCH
           git ls-remote --exit-code --heads origin $VISUAL_DIFF_BRANCH || echo "Trying"
-          if [ git ls-remote --exit-code --heads origin $VISUAL_DIFF_BRANCH -ne 0 ]; then
+          if git ls-remote --exit-code --heads origin $VISUAL_DIFF_BRANCH; then
             echo -e "\n\e[34mClosing Goldens PR and Deleting Branch"
             git push -d origin $VISUAL_DIFF_BRANCH || true
           fi
