@@ -81,7 +81,7 @@ runs:
         git checkout $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
         echo "Checked out new branch"
-        git stash apply
+        git stash apply || true
         echo "git stash applied"
         git checkout --theirs */screenshots/ci/golden/*
         echo "merge conflicts fixed"
