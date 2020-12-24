@@ -83,14 +83,14 @@ runs:
         echo "Checked out new branch"
         git stash apply
         echo "git stash applied"
+        git checkout --theirs */screenshots/ci/golden/*
+        echo "merge conflicts fixed"
         
         echo -e "\n\e[34mCommitting new goldens"
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
-        echo "git added"
         git commit -m 'Updating Visual Diff Goldens'
-        echo "git committed"
         
         echo -e "\n\e[34mPushing the Visual Diff Branch"
         git push --force origin $VISUAL_DIFF_BRANCH  
