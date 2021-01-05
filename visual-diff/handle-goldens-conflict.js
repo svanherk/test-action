@@ -10,7 +10,7 @@ const octokit = new Octokit({
 });
 
 const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
-const sourceBranchName = process.env['SOURCE_BRANCH'];
+const prBaseBranchName = process.env['PR_BASE_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM'];
 
 async function handleGoldensConflict() {
@@ -20,7 +20,7 @@ async function handleGoldensConflict() {
     owner: owner,
     repo: repo,
     issue_number: prNum,
-    body: `Could not generate new goldens - your code changes will update golden files that you do not have the latest version of.  Please rebase or merge ${sourceBranchName} into your branch.`
+    body: `Could not generate new goldens - your code changes will update golden files that you do not have the latest version of.  Please rebase or merge \`${prBaseBranchName}\` into your branch.`
   });	
 }
 
