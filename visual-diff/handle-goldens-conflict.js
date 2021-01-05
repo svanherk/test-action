@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const chalk = require('chalk');
 const { Octokit } = require('@octokit/rest');
 
 const octokit = new Octokit({
@@ -14,7 +13,7 @@ const prBaseBranchName = process.env['PULL_REQUEST_BASE_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM'];
 
 async function handleGoldensConflict() {
-  console.log(chalk.blue('\nCommenting about the goldens conflict on the pull request.'));
+  console.log('Adding comment to pull request about goldens conflict.\n');
 
   await octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
     owner: owner,
