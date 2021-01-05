@@ -125,6 +125,7 @@ runs:
         FORCE_COLOR: 3
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         PULL_REQUEST_NUM: ${{ github.event.number }}
+        PULL_REQUEST_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         SOURCE_BRANCH: ${{ steps.committing-goldens.outputs.source-branch }}
         VISUAL_DIFF_BRANCH: ${{ steps.committing-goldens.outputs.visual-diff-branch }}
       shell: bash
