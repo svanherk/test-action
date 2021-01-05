@@ -10,7 +10,7 @@ const octokit = new Octokit({
 });
 
 const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
-const prBaseBranchName = process.env['PR_BASE_BRANCH'];
+const prBaseBranchName = process.env['PULL_REQUEST_BASE_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM'];
 
 async function handleGoldensConflict() {
