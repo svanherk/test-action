@@ -76,20 +76,16 @@ runs:
         echo -e "\e[31mVisual diff tests failed - generating new goldens."
         
         echo -e "\n\e[34mCreating the Visual Diff Branch"
-        git stash --include-untracked
         git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH -q || true
-        git checkout $SOURCE_BRANCH
+        MODIFIED=$( git ls-files --others --modified --exclude-standard | tr '\n' ' ')
+        echo MODIFIED
+        git reset --mixed $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
-        echo "Checked out new branch"
-        git stash apply || true
-        echo "git stash applied"
-        git checkout --theirs */screenshots/ci/golden/*
-        echo "merge conflicts fixed"
         
         echo -e "\n\e[34mCommitting new goldens"
         git config user.name github-actions
         git config user.email github-actions@github.com
-        git add .
+        git add $MODIFIED
         git commit -m 'Updating Visual Diff Goldens'
         
         echo -e "\n\e[34mPushing the Visual Diff Branch"
