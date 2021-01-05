@@ -78,9 +78,11 @@ runs:
         echo -e "\n\e[34mCreating the Visual Diff Branch"
         git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH -q || true
         MODIFIED=$( git ls-files --others --modified --exclude-standard | tr '\n' ' ')
-        echo MODIFIED
+        echo $MODIFIED
+        git status
         git reset --mixed $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
+        git status
         
         echo -e "\n\e[34mCommitting new goldens"
         git config user.name github-actions
