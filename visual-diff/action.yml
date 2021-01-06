@@ -69,6 +69,8 @@ runs:
         echo "::set-output name=source-branch::$(echo "$SOURCE_BRANCH")"
         echo "::set-output name=visual-diff-branch::$(echo "$VISUAL_DIFF_BRANCH")"
       
+        git branch --show-current
+      
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
           echo -e "\e[32mVisual diff tests have passed - no new goldens needed.\n"
           exit 0;
