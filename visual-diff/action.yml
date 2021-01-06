@@ -104,12 +104,14 @@ runs:
     - name: Handling the Goldens PR (if necessary)
       run: |   
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ] || [ ${{ steps.committing-goldens.outputs.goldens-conflict }} == true ]; then
+          echo "Got here"
           if git ls-remote --exit-code --heads origin $VISUAL_DIFF_BRANCH; then
             echo -e "\e[34mClosing Goldens PR and Deleting Branch"
             git push -d origin $VISUAL_DIFF_BRANCH || true
           fi
         fi
      
+        echo "showing ref"
         git show-ref $GITHUB_REF
      
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
