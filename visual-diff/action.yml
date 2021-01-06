@@ -111,11 +111,8 @@ runs:
           fi
         fi
      
-        echo "showing ref"
-        git show-ref $GITHUB_REF
-     
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
-          git checkout origin $GITHUB_REF;
+          git checkout $GITHUB_SHA;
           echo -e "\e[32mCompleted - Build Passed."
           exit 0;
         fi
@@ -126,7 +123,7 @@ runs:
           node ${{ github.action_path }}/handle-pr.js
         fi
  
-        git checkout origin $GITHUB_REF;
+        git checkout $GITHUB_SHA;
         echo -e "\e[31mCompleted - Build Failed."
         exit 1;
       env:
