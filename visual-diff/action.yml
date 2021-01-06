@@ -69,9 +69,6 @@ runs:
         echo "::set-output name=source-branch::$(echo "$SOURCE_BRANCH")"
         echo "::set-output name=visual-diff-branch::$(echo "$VISUAL_DIFF_BRANCH")"
       
-        git rev-parse HEAD
-        echo $GITHUB_SHA
-      
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
           echo -e "\e[32mVisual diff tests have passed - no new goldens needed.\n"
           exit 0;
@@ -112,8 +109,6 @@ runs:
         fi
      
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
-          git rev-parse HEAD
-          git checkout $GITHUB_SHA;
           echo -e "\e[32mCompleted - Build Passed."
           exit 0;
         fi
@@ -124,8 +119,6 @@ runs:
           node ${{ github.action_path }}/handle-pr.js
         fi
  
-        git rev-parse HEAD
-        git checkout $GITHUB_SHA;
         echo -e "\e[31mCompleted - Build Failed."
         exit 1;
       env:
