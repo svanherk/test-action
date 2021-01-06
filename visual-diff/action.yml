@@ -69,7 +69,8 @@ runs:
         echo "::set-output name=source-branch::$(echo "$SOURCE_BRANCH")"
         echo "::set-output name=visual-diff-branch::$(echo "$VISUAL_DIFF_BRANCH")"
       
-        git branch --show-current
+        git rev-parse HEAD
+        echo $GITHUB_SHA
       
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
           echo -e "\e[32mVisual diff tests have passed - no new goldens needed.\n"
@@ -108,6 +109,8 @@ runs:
             git push -d origin $VISUAL_DIFF_BRANCH || true
           fi
         fi
+     
+        git show-ref $GITHUB_REF
      
         if [ ${{ steps.visual-diff-tests.outputs.tests-passed }} == true ]; then
           git checkout origin $GITHUB_REF;
