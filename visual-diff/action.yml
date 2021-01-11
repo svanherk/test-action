@@ -89,6 +89,7 @@ runs:
           exit 1;
         fi
         
+        echo "::set-output name=goldens-conflict::$(echo false)"
         if ! git stash apply; then
           echo -e "\e[31mCould not apply stash - merge conflicts with ${{ github.event.pull_request.base.ref }}."
           echo "::set-output name=goldens-conflict::$(echo true)"
