@@ -81,7 +81,7 @@ runs:
         
         echo -e "\n\e[34mCreating the Visual Diff Branch"
         git stash --include-untracked
-        git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH -q || true
+        git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH -q -u || true
         git checkout $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
         if [ $(git rev-parse HEAD) != $ORIGINAL_SHA ]; then
