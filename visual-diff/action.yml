@@ -69,6 +69,7 @@ runs:
           SOURCE_BRANCH=${GITHUB_REF#refs/heads/}
           VISUAL_DIFF_BRANCH=ghworkflow/visual-diff-${GITHUB_REF#refs/heads/}
           ORIGINAL_SHA=$GITHUB_SHA
+          echo $ORIGINAL_SHA
         fi
         echo "::set-output name=source-branch::$(echo "$SOURCE_BRANCH")"
         echo "::set-output name=visual-diff-branch::$(echo "$VISUAL_DIFF_BRANCH")"
@@ -84,7 +85,7 @@ runs:
         git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH -q || true
         git checkout $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
-        if [ git rev-parse HEAD == $ORIGINAL_SHA ]; then
+        if [ $(git rev-parse HEAD) == $ORIGINAL_SHA ]; then
           echo "good to go"
         else
           echo "no good"
