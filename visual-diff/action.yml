@@ -1,4 +1,3 @@
-
 name: Visual Diff
 description: Run your visual diff tests and open a PR with the new goldens as necessary
 inputs:
@@ -20,13 +19,13 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Installing Dependencies
+    - name: Install Dependencies
       run: |
         echo -e "\e[34mInstalling Dependencies"
         NPM_PACKAGE=$(cut -d "=" -f 2 <<< $(npm run env | grep "npm_package_name"))
         echo $NPM_PACKAGE
         if [ $NPM_PACKAGE != '@brightspace-ui/visual-diff' ]; then
-          npm install mocha@8 puppeteer@5 @brightspace-ui/visual-diff --no-save
+          npm install mocha@8 puppeteer@5 @brightspace-ui/visual-diff@2 --no-save
         fi
         npm install chalk@4 @octokit/rest@18 --prefix ${{ github.action_path }} --no-save --loglevel error
       env:
@@ -45,7 +44,7 @@ runs:
       id: visual-diff-tests
       run: |
         echo -e "\e[34mRunning Visual Diff Tests"
-        npx mocha ${{ inputs.TEST_PATH }} -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
+        npx mocha '${{ inputs.TEST_PATH }}' -t ${{ inputs.TEST_TIMEOUT }} --colors && echo "::set-output name=tests-passed::$(echo true)" || echo "::set-output name=tests-passed::$(echo false)"
         if [ -f failed-reports.txt ]; then
           FAILED_REPORTS=$(<failed-reports.txt)
           echo "::set-output name=failed-reports::$(echo "$FAILED_REPORTS")"
