@@ -1,24 +1,24 @@
 
-name: 'Visual Diff'
-description: 'Run your visual diff tests and open a PR with the new goldens as necessary'
+name: Visual Diff
+description: Run your visual diff tests and open a PR with the new goldens as necessary
 inputs:
   AWS_ACCESS_KEY_ID:
-    description: 'Access key id for the role to assume the visual diff role'
+    description: Access key id for the role that will assume the visual diff role
     required: true
   AWS_SECRET_ACCESS_KEY:
-    description: 'Access key secret for the role to assume the visual diff role'
+    description: Access key secret for the role that will assume the visual diff role
     required: true
   GITHUB_TOKEN:
-    description: 'Token used to open the PR'
+    description: Token to use to open the goldens PR
     required: true
   TEST_PATH:
-    description: 'Visual diff tests path and test names'
-    default: './**/*.visual-diff.js'
+    description: Path passed into the mocha call defining the locations and name structure of the tests
+    default: './{,!(node_modules)/**}/*.visual-diff.js'
   TEST_TIMEOUT:
-    description: 'Mocha test timeout'
+    description: Test timeout passed into the mocha call
     default: 40000
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Installing Dependencies
       run: |
