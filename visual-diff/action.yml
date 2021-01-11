@@ -62,9 +62,13 @@ runs:
         if [ ${{ github.event.number }} ]; then
           SOURCE_BRANCH=${{ github.event.pull_request.head.ref }}
           VISUAL_DIFF_BRANCH=ghworkflow/visual-diff-pr-${{ github.event.number }}
+          ORIGINAL_SHA=${{ github.event.pull_request.head.sha }}
+          echo $ORIGINAL_SHA
+          echo $GITHUB_SHA
         else
           SOURCE_BRANCH=${GITHUB_REF#refs/heads/}
           VISUAL_DIFF_BRANCH=ghworkflow/visual-diff-${GITHUB_REF#refs/heads/}
+          ORIGINAL_SHA=$GITHUB_SHA
         fi
         echo "::set-output name=source-branch::$(echo "$SOURCE_BRANCH")"
         echo "::set-output name=visual-diff-branch::$(echo "$VISUAL_DIFF_BRANCH")"
@@ -80,6 +84,13 @@ runs:
         git fetch origin +refs/heads/$SOURCE_BRANCH:refs/heads/$SOURCE_BRANCH -q || true
         git checkout $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
+        if [ git rev-parse HEAD == $ORIGINAL_SHA ]; then
+          echo "good to go"
+        else
+          echo "no good"
+          exit 1;
+        fi
+        
         if ! git stash apply; then
           echo -e "\e[31mCould not apply stash - merge conflicts with ${{ github.event.pull_request.base.ref }}."
           echo "::set-output name=goldens-conflict::$(echo true)"
