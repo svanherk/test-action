@@ -85,7 +85,7 @@ runs:
         git checkout $SOURCE_BRANCH
         git checkout -b $VISUAL_DIFF_BRANCH
         if [ $(git rev-parse HEAD) != $ORIGINAL_SHA ]; then
-          echo -e "\e[31mBranch out of date - more commits have been added to the $SOURCE_BRANCH branch since this action started running.  Stopping this test run."
+          echo -e "\e[31mBranch out of date - more commits have been added to the '$SOURCE_BRANCH' branch since this action started running.  Stopping this test run."
           exit 1;
         fi
         
