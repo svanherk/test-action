@@ -19,10 +19,10 @@ async function cleanupBranches() {
 		ref: `heads/${branchPrefix}`
 	});
 	
-	console.log(visualDiffBranches);
+	console.log(visualDiffBranches.data);
 	
-	for (let i = 0; i < visualDiffBranches.length; i++) {
-		const branch = visualDiffBranches[i].ref;
+	for (let i = 0; i < visualDiffBranches.data.length; i++) {
+		const branch = visualDiffBranches.data[i].ref;
 		const prNum = branch.splice(branch.lastIndexOf('-') + 1);
 		console.log(branch);
 		console.log(prNum);
