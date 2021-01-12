@@ -23,7 +23,7 @@ async function cleanupBranches() {
 	
 	for (let i = 0; i < visualDiffBranches.data.length; i++) {
 		const branch = visualDiffBranches.data[i].ref;
-		const prNum = branch.splice(branch.lastIndexOf('-') + 1);
+		const prNum = branch.slice(branch.lastIndexOf('-') + 1);
 		console.log(branch);
 		console.log(prNum);
 	};
