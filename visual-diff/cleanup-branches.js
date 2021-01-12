@@ -16,7 +16,7 @@ async function cleanupBranches() {
 	const visualDiffBranches = await octokit.request('GET /repos/{owner}/{repo}/git/matching-refs/{ref}', {
 		owner: owner,
 		repo: repo,
-		ref: `refs/heads/${branchPrefix}`
+		ref: `heads/${branchPrefix}`
 	});
 	
 	for (let i = 0; i < visualDiffBranches.length; i++) {
