@@ -24,8 +24,39 @@ async function cleanupBranches() {
 	for (let i = 0; i < visualDiffBranches.data.length; i++) {
 		const branch = visualDiffBranches.data[i].ref;
 		const prNum = branch.slice(branch.lastIndexOf('-') + 1);
-		console.log(branch);
-		console.log(prNum);
+		
+		let prInfo,
+		    prOpen = true;
+		try {
+			prInfo = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+				owner: owner,
+				repo: repo,
+				pull_number: prNum
+			});
+			
+			if (prInfo.data.state !== 'open') {
+				prOpen = false;
+			}
+		} catch (e) {
+			console.log(chalk.red(e));
+			console.log(chalk.red(`Could not get details for PR #${prNum} - skipping branch ${branch}.`));
+			continue;
+		}
+		
+		if (!prOpen) {
+			console.log(`PR #${prNum} is no longer open - deleting branch ${branch}.`)
+			try {
+				/*await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+					owner: owner,
+					repo: repo,
+					pull_number: prNum
+				});*/
+				console.log('delete');
+			} catch (e) {
+				console.log(chalk.red(e));
+				console.log(chalk.red(`Could not delete branch ${branch}.`));
+			}
+		}
 	};
 }
 
