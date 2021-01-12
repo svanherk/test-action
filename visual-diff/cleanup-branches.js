@@ -19,8 +19,6 @@ async function cleanupBranches() {
 		ref: `heads/${branchPrefix}`
 	});
 	
-	console.log(visualDiffBranches.data);
-	
 	for (let i = 0; i < visualDiffBranches.data.length; i++) {
 		const branch = visualDiffBranches.data[i].ref;
 		const prNum = branch.slice(branch.lastIndexOf('-') + 1);
@@ -44,14 +42,13 @@ async function cleanupBranches() {
 		}
 		
 		if (!prOpen) {
-			console.log(`PR #${prNum} is no longer open - deleting branch ${branch}.`)
+			console.log(`PR #${prNum} is no longer open - deleting branch ${branch}.\n`)
 			try {
 				await octokit.request('DELETE /repos/{owner}/{repo}/git/refs/{ref}', {
 					owner: owner,
 					repo: repo,
 					ref: branch.substring(5)
 				});
-				console.log('delete');
 			} catch (e) {
 				console.log(chalk.red(e));
 				console.log(chalk.red(`Could not delete branch ${branch}.`));
