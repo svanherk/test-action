@@ -55,6 +55,8 @@ async function cleanupBranches() {
 			}
 		}
 	};
+	
+	console.log(`Done processing visual-diff branches.\n`);
 }
 
 cleanupBranches().catch((e) => {
