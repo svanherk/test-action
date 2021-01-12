@@ -13,7 +13,18 @@ const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
 const branchPrefix = process.env['VISUAL_DIFF_BRANCH_PREFIX'];
 
 async function cleanupBranches() {
-	console.log(`Coming soon... will cleanup ${branchPrefix}* branches.\n`);
+	const visualDiffBranches = await octokit.request('GET /repos/{owner}/{repo}/git/matching-refs/{ref}', {
+		owner: owner,
+		repo: repo,
+		ref: `refs/heads/${branchPrefix}`
+	});
+	
+	for (int i = 0; i < visualDiffBranches.length; i++) {
+		const branch = visualDiffBranches[i];
+		const prNum = branch.splice(branch.lastIndexOf('-') + 1);
+		console.log(branch);
+		console.log(prNum);
+	};
 }
 
 cleanupBranches().catch((e) => {
