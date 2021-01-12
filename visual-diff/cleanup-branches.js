@@ -46,11 +46,11 @@ async function cleanupBranches() {
 		if (!prOpen) {
 			console.log(`PR #${prNum} is no longer open - deleting branch ${branch}.`)
 			try {
-				/*await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
+				await octokit.request('DELETE /repos/{owner}/{repo}/git/refs/{ref}', {
 					owner: owner,
 					repo: repo,
-					pull_number: prNum
-				});*/
+					ref: branch.substring(5)
+				});
 				console.log('delete');
 			} catch (e) {
 				console.log(chalk.red(e));
