@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const chalk = require('chalk');
 const { Octokit } = require('@octokit/rest');
 
 const octokit = new Octokit({
@@ -13,14 +14,14 @@ const prBaseBranchName = process.env['PULL_REQUEST_BASE_BRANCH'];
 const prNum = process.env['PULL_REQUEST_NUM'];
 
 async function handleGoldensConflict() {
-  console.log('Adding comment to pull request about goldens conflict.\n');
+	console.log('Adding comment to pull request about goldens conflict.\n');
 
-  await octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
-    owner: owner,
-    repo: repo,
-    issue_number: prNum,
-    body: `Could not generate new goldens - your code changes will update golden files that you do not have the latest version of.  Please rebase or merge \`${prBaseBranchName}\` into your branch.`
-  });	
+	await octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
+		owner: owner,
+		repo: repo,
+		issue_number: prNum,
+		body: `Could not generate new goldens - your code changes will update golden files that you do not have the latest version of.  Please rebase or merge \`${prBaseBranchName}\` into your branch.`
+	});
 }
 
 handleGoldensConflict().catch((e) => {
