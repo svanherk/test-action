@@ -18,20 +18,20 @@ async function cleanupBranches() {
 		repo: repo,
 		ref: `heads/${branchPrefix}`
 	});
-	
+
 	for (let i = 0; i < visualDiffBranches.data.length; i++) {
 		const branch = visualDiffBranches.data[i].ref;
 		const prNum = branch.slice(branch.lastIndexOf('-') + 1);
-		
+
 		let prInfo,
-		    prOpen = true;
+			prOpen = true;
 		try {
 			prInfo = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', {
 				owner: owner,
 				repo: repo,
 				pull_number: prNum
 			});
-			
+
 			if (prInfo.data.state !== 'open') {
 				prOpen = false;
 			}
@@ -40,9 +40,9 @@ async function cleanupBranches() {
 			console.log(chalk.red(`Could not get details for PR #${prNum} - skipping branch ${branch}.`));
 			continue;
 		}
-		
+
 		if (!prOpen) {
-			console.log(`PR #${prNum} is no longer open - deleting branch ${branch}.\n`)
+			console.log(`PR #${prNum} is no longer open - deleting branch ${branch}.\n`);
 			try {
 				await octokit.request('DELETE /repos/{owner}/{repo}/git/refs/{ref}', {
 					owner: owner,
@@ -54,9 +54,9 @@ async function cleanupBranches() {
 				console.log(chalk.red(`Could not delete branch ${branch}.`));
 			}
 		}
-	};
-	
-	console.log(`Done processing visual-diff branches.\n`);
+	}
+
+	console.log('Done processing visual-diff branches.\n');
 }
 
 cleanupBranches().catch((e) => {
