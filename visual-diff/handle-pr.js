@@ -3,17 +3,17 @@
 const chalk = require('chalk');
 const { Octokit } = require('@octokit/rest');
 
+const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
+const actor = process.env['GITHUB_ACTOR'];
+const prNum = process.env['PULL_REQUEST_NUM'];
+const sourceBranchName = process.env['SOURCE_BRANCH'];
+const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
+
 const octokit = new Octokit({
 	auth: process.env['GITHUB_TOKEN'],
 	baseUrl: process.env['GITHUB_API_URL'],
 	userAgent: `${process.env['GITHUB_WORKFLOW']}-visual-diff`
 });
-
-const [owner, repo] = process.env['GITHUB_REPOSITORY'].split('/');
-const sourceBranchName = process.env['SOURCE_BRANCH'];
-const prNum = process.env['PULL_REQUEST_NUM'];
-const goldensBranchName = process.env['VISUAL_DIFF_BRANCH'];
-const actor = process.env['GITHUB_ACTOR'];
 
 function createPRBody() {
 	let body = `This pull request updates the visual-diff golden images for ${prNum ? `the changes in pull request #${prNum}.` : `branch \`${sourceBranchName}\`.`}`;
@@ -105,7 +105,7 @@ async function handlePR() {
 				repo: repo,
 				issue_number: prNum,
 				body: `Visual diff tests failed - pull request #${goldenPrNum} has been opened with the updated goldens.`
-			});	
+			});
 		}
 	} else {
 		goldenPrNum = goldenPRs.data[0].number;
@@ -129,7 +129,8 @@ async function handlePR() {
 		]
 	});
 
-	console.log(process.env['GITHUB_RUN_ID']);
+	// Attempting to create button to go to the visual-diff PR
+	/*console.log(process.env['GITHUB_RUN_ID']);
 
 	const test = await octokit.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs', {
 		owner: owner,
@@ -153,7 +154,7 @@ async function handlePR() {
 		repo: repo,
 		check_run_id: test.data.jobs[0].id,
 		output: obj
-	});
+	});*/
 }
 
 handlePR().catch((e) => {
