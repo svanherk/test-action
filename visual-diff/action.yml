@@ -91,7 +91,13 @@ runs:
           exit 1;
         fi
         
+        echo "::set-output name=changes-empty::$(echo false)"
         echo "::set-output name=goldens-conflict::$(echo false)"
+        if [ $(git stash list | wc -l) == 0 ]; then
+          echo -e "\e[31mNo changes to apply - please see errors above."
+          echo "::set-output name=changes-empty::$(echo true)"
+          exit 0;
+        fi
         if ! git stash apply; then
           echo -e "\e[31mCould not apply stash - merge conflicts with ${{ github.event.pull_request.base.ref }}."
           echo "::set-output name=goldens-conflict::$(echo true)"
@@ -124,9 +130,9 @@ runs:
           exit 0;
         fi
         
-        if [ ${{ steps.committing-goldens.outputs.goldens-conflict }} == true ]; then
-          node ${{ github.action_path }}/handle-goldens-conflict.js
-        else 
+        if [ ${{ steps.committing-goldens.outputs.changes-empty }} == true ] || [ ${{ steps.committing-goldens.outputs.goldens-conflict }} == true ]; then
+          node ${{ github.action_path }}/handle-issues.js
+        else
           node ${{ github.action_path }}/handle-pr.js
         fi
  
@@ -136,6 +142,7 @@ runs:
         FAILED_REPORTS: ${{ steps.visual-diff-tests.outputs.failed-reports }}
         FORCE_COLOR: 3
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        GOLDENS_CONFLICT: ${{ steps.committing-goldens.outputs.goldens-conflict }}
         PULL_REQUEST_NUM: ${{ github.event.number }}
         PULL_REQUEST_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         SOURCE_BRANCH: ${{ steps.committing-goldens.outputs.source-branch }}
