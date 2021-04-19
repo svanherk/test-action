@@ -38,7 +38,7 @@ async function handleIssues() {
 	});
 }
 
-if (process.env['GOLDENS_CONFLICT']) {	
+if (process.env['GOLDENS_CONFLICT'] === 'true') {	
 	handleGoldensConflict().catch((e) => {
 		console.log(chalk.red(e));
 		console.log(chalk.red('Could not comment on goldens conflict.'));
