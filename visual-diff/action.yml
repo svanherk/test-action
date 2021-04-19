@@ -27,7 +27,8 @@ runs:
         if [ $NPM_PACKAGE != '@brightspace-ui/visual-diff' ]; then
           npm install mocha@8 puppeteer@8 @brightspace-ui/visual-diff@4 --no-save
         fi
-        npm install chalk@4 esm@3 @octokit/rest@18 --prefix ${{ github.action_path }} --no-save --loglevel error
+        npm install esm@3 --no-save
+        npm install chalk@4 @octokit/rest@18 --prefix ${{ github.action_path }} --no-save --loglevel error
       env:
         FORCE_COLOR: 3
       shell: bash
