@@ -43,7 +43,7 @@ if (process.env['GOLDENS_CONFLICT']) {
 		console.log(chalk.red(e));
 		console.log(chalk.red('Could not comment on goldens conflict.'));
 	});
-else {
+} else {
 	handleIssues().catch((e) => {
 		console.log(chalk.red(e));
 		console.log(chalk.red('Could not comment on issues.'));
