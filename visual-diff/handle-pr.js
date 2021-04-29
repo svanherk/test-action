@@ -87,7 +87,7 @@ async function handlePR() {
 			title: prNum ? `Updating Visual Diff Goldens for PR ${prNum}` : `Updating Visual Diff Goldens for Branch ${sourceBranchName}`,
 			head: `refs/heads/${goldensBranchName}`,
 			base: `refs/heads/${sourceBranchName}`,
-			draft: process.env['DRAFT_PR'] === 'false' ? false : true,
+			draft: process.env['DRAFT_PR'].toLowerCase() === 'false' ? false : true,
 			body: createPRBody()
 		});
 		goldenPrNum = newPR.data.number;
