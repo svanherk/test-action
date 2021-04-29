@@ -8,7 +8,7 @@ inputs:
     description: Access key secret for the role that will assume the visual diff role
     required: true
   DRAFT_PR:
-    description: Whether to open the visual-diff PR as a draft PR
+    description: Whether to open the goldens PR as a draft PR
     default: true
   GITHUB_TOKEN:
     description: Token to use to open the goldens PR
@@ -28,7 +28,7 @@ runs:
         NPM_PACKAGE=$(cut -d "=" -f 2 <<< $(npm run env | grep "npm_package_name"))
         echo $NPM_PACKAGE
         if [ $NPM_PACKAGE != '@brightspace-ui/visual-diff' ]; then
-          npm install esm@3 mocha@8 puppeteer@8 @brightspace-ui/visual-diff@4 --no-save
+          npm install esm@3 mocha@8 puppeteer@9 @brightspace-ui/visual-diff@5 --no-save
         else
           npm install esm@3 --no-save
         fi
